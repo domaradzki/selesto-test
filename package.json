@@ -3,12 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "concurrently \"npm:serve:*\" -k",
+    "serve:client": "vue-cli-service serve",
+    "serve:server": "nodemon src/server -L",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "axios": "^0.21.1",
+    "concurrently": "^6.0.0",
     "core-js": "^3.6.5",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.7",
     "vue": "^2.6.11"
   },
   "devDependencies": {
