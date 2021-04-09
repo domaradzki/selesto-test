@@ -6,7 +6,7 @@ const upload = async (req, res) => {
 };
 
 const baseDir = path.resolve(path.dirname(''));
-
+console.log(baseDir);
 const baseUrl = 'http://localhost:8080/api/files/';
 
 const getListFiles = (req, res) => {
