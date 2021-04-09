@@ -38,15 +38,27 @@
           >{{ file.name.length &lt; 50 ? file.name : file.name.substring(0,40)+'...' }}</a
         >
         <div class="icons">
-          <span><Display class="svg-icon" /></span>
+          <span class="icon" v-on:click="handleActiveView(file.name)"
+            ><Display class="svg-icon"
+          /></span>
           <a class="link" v-bind:href="file.url" download
-            ><span><Download class="svg-icon" /></span
+            ><span class="icon"><Download class="svg-icon" /></span
           ></a>
-          <span v-on:click="handleDeleteFIle(file.name, key)"
+          <span
+            class="icon"
+            v-on:click="handleDeleteFIle(file.name, key)"
             ><Delete class="svg-icon"
           /></span>
         </div>
       </div>
+    </div>
+    <div class="photo-view">
+      <img
+        v-if="activeFile"
+        class="image"
+        v-bind:src="`../../api/files/${activeFile}`"
+      />
+      <img v-else class="image" src="../assets/logo.png" />
     </div>
   </div>
 </template>
@@ -65,6 +77,7 @@ export default {
       files: [],
       file: null,
       message: '',
+      activeFile: null,
     };
   },
   methods: {
@@ -95,6 +108,11 @@ export default {
       if (file) {
         this.file = file;
         this.message = file.name;
+      }
+    },
+    handleActiveView(name) {
+      if (name) {
+        this.activeFile = name;
       }
     },
     async handleDisplayFiles() {
@@ -134,10 +152,12 @@ export default {
   justify-content: center;
   border-radius: 10px;
   margin-bottom: 10px;
+  position: relative;
 }
 .container {
   padding: 10px;
   width: 100%;
+  margin-bottom: 20px;
 }
 .column {
   display: flex;
@@ -152,6 +172,16 @@ export default {
   padding: 12px 10px;
   border-radius: 4px;
 }
+.photo-view {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 150px;
+}
+.image {
+  width: 100%;
+  margin: 0 auto;
+}
 .message {
   font-weight: bold;
   font-size: 18px;
@@ -159,6 +189,9 @@ export default {
 }
 .icons {
   display: flex;
+}
+.icon {
+  cursor: pointer;
 }
 .svg-icon {
   width: 24px;
