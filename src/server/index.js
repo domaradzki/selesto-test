@@ -3,10 +3,10 @@ const cors = require('cors');
 
 const app = express();
 
-const corsOptions = {
-  origin: 'http://localhost:8080',
-};
-app.use(cors(corsOptions));
+// const corsOptions = {
+//   origin: 'http://localhost:8080',
+// };
+app.use(cors());
 
 const initRoutes = require('./routes');
 

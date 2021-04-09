@@ -36,7 +36,13 @@ const deleteFile = (req, res) => {
   const fileName = req.params.name;
   const directoryPath = baseDir + '/uploads/';
   try {
-    fs.unlinkSync(`${directoryPath}${fileName}`);
+    if (fs.existsSync(`${directoryPath}${fileName}`)) {
+      fs.unlink(`${directoryPath}${fileName}`, function () {
+        res.status(200).send({
+          response: 'success',
+        });
+      });
+    }
   } catch (err) {
     console.error(err);
   }

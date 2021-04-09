@@ -2,10 +2,11 @@
   <div class="wrapper">
     <div class="container column">
       <label
-        >Dodawanie plików do katalogu
+        >Dodawanie zdjęć do katalogu
         <input
           class="file-input column"
           type="file"
+          accept="image/*"
           id="file"
           name="file"
           ref="file"
@@ -26,7 +27,7 @@
 
     <div class="container">
       <div
-        v-for="file in files"
+        v-for="(file, key) in files"
         class="file-listing"
         v-bind:key="file.name"
       >
@@ -41,7 +42,7 @@
           <a class="link" v-bind:href="file.url" download
             ><span><Download class="svg-icon" /></span
           ></a>
-          <span v-on:click="handelDeleteFIle(file.name)"
+          <span v-on:click="handleDeleteFIle(file.name, key)"
             ><Delete class="svg-icon"
           /></span>
         </div>
@@ -77,10 +78,10 @@ export default {
           await axios.post('/api/upload', formData, {
             headers: { 'Content-Type': 'multipart/form-data' },
           });
-          this.handleDisplayFiles();
+          await this.handleDisplayFiles();
           this.message = 'Plik zapisany!';
         } catch (err) {
-          console.log('Error');
+          console.log('Error', err);
           this.message = 'Coś poszło nie tak, spróbuj ponownie!';
         }
       }
@@ -90,26 +91,25 @@ export default {
       this.file = file;
       this.message = file.name;
     },
-    handleDisplayFiles() {
+    async handleDisplayFiles() {
       try {
-        axios.get('/api/files').then((res) => {
+        await axios.get('/api/files').then((res) => {
           this.files = [...res.data];
         });
         this.message = 'Wczynato listę plików z katalogu!';
       } catch (err) {
-        console.log('Error');
+        console.log('Error', err);
         this.message = 'Coś poszło nie tak, spróbuj ponownie!';
       }
     },
-    handelDeleteFIle(name) {
+    handleDeleteFIle(name, key) {
       try {
-        axios.get(`/api/delete/${name}`).then((res) => {
-          console.log(res.data);
+        axios.delete(`/api/delete/${name}`).then((res) => {
+          this.files.splice(key, 1);
+          this.message = 'Plik skaowany!';
         });
-        this.handleDisplayFiles();
-        this.message = 'Plik skaowany!';
       } catch (err) {
-        console.log('Error');
+        console.log('Error', err);
         this.message = 'Coś poszło nie tak, spróbuj ponownie!';
       }
     },
