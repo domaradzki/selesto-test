@@ -1,18 +1,18 @@
 <template>
   <div id="app">
     <Header />
-    <Test />
+    <Layout />
   </div>
 </template>
 
 <script>
-import Test from './components/Test.vue';
+import Layout from './components/Layout.vue';
 import Header from './components/Header.vue';
 
 export default {
   name: 'App',
   components: {
-    Test,
+    Layout,
     Header,
   },
 };
