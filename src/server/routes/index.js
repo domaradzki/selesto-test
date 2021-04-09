@@ -7,6 +7,7 @@ let routes = (app) => {
   router.post('/api/upload', uploadFile, controller.upload);
   router.get('/api/files', controller.getListFiles);
   router.get('/api/delete/:name', controller.deleteFile);
+  router.get('/api/files/:name', controller.download);
   router.get('/api/info', controller.info);
   app.use(router);
 };

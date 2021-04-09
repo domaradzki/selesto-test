@@ -7,7 +7,7 @@ const upload = async (req, res) => {
 
 const baseDir = path.resolve(path.dirname(''));
 console.log(baseDir);
-const baseUrl = 'http://localhost:8080/api/files/';
+const baseUrl = 'http://localhost:8070/api/files/';
 
 const getListFiles = (req, res) => {
   const directoryPath = baseDir + '/uploads/';
@@ -42,6 +42,19 @@ const deleteFile = (req, res) => {
   }
 };
 
+const download = (req, res) => {
+  const fileName = req.params.name;
+  const directoryPath = baseDir + '/uploads/';
+
+  res.download(directoryPath + fileName, fileName, (err) => {
+    if (err) {
+      res.status(500).send({
+        message: 'Nie można pobrać pliku. ' + err,
+      });
+    }
+  });
+};
+
 const info = (req, res) => {
   res.json({ msg: +new Date() });
 };
@@ -50,5 +63,6 @@ module.exports = {
   upload,
   getListFiles,
   deleteFile,
+  download,
   info,
 };
