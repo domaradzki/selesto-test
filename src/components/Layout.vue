@@ -1,6 +1,14 @@
 <template>
   <div class="wrapper">
     <div class="container column">
+      <div class="photo-view">
+        <img
+          v-if="activeFile"
+          class="image"
+          v-bind:src="`../../api/files/${activeFile}`"
+        />
+        <img v-else class="image" src="../assets/logo.png" />
+      </div>
       <label
         >Dodawanie zdjęć do katalogu
         <input
@@ -51,14 +59,6 @@
           /></span>
         </div>
       </div>
-    </div>
-    <div class="photo-view">
-      <img
-        v-if="activeFile"
-        class="image"
-        v-bind:src="`../../api/files/${activeFile}`"
-      />
-      <img v-else class="image" src="../assets/logo.png" />
     </div>
   </div>
 </template>
@@ -208,7 +208,6 @@ export default {
   text-align: center;
   border-radius: 8px;
   line-height: 30px;
-  padding: 3px;
   cursor: pointer;
   margin-right: 15px;
   padding: 4px 15px;
@@ -257,5 +256,28 @@ export default {
 }
 .file-input:active {
   outline: 0;
+}
+
+@media (max-width: 498px) {
+  .wrapper {
+    padding: 10px;
+    min-height: 400px;
+    justify-content: space-between;
+  }
+  .container {
+    padding: 1px;
+  }
+  .photo-view[data-v-005bfc5a] {
+    position: relative;
+    width: 175px;
+    align-self: center;
+    margin-bottom: 20px;
+  }
+  .btn {
+    width: 150px;
+    line-height: 20px;
+    padding: 0;
+    height: 50px;
+  }
 }
 </style>
