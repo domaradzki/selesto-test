@@ -69,6 +69,10 @@ export default {
   },
   methods: {
     async submitFiles() {
+      if (!this.file) {
+        this.message = 'Wybierz poprawny plik!';
+        return;
+      }
       const formData = new FormData();
       formData.append('file', this.file);
       if (this.files.some((image) => image.name === this.file.name)) {
@@ -88,8 +92,10 @@ export default {
     },
     handleFileUpload() {
       const file = this.$refs.file.files[0];
-      this.file = file;
-      this.message = file.name;
+      if (file) {
+        this.file = file;
+        this.message = file.name;
+      }
     },
     async handleDisplayFiles() {
       try {
