@@ -34,6 +34,15 @@
           download
           >{{ file.name.length &lt; 50 ? file.name : file.name.substring(0,40)+'...' }}</a
         >
+        <div class="icons">
+          <span><Display class="svg-icon" /></span>
+          <a class="link" v-bind:href="file.url" download
+            ><span><Download class="svg-icon" /></span
+          ></a>
+          <span v-on:click="handelDeleteFIle(file.name)"
+            ><Delete class="svg-icon"
+          /></span>
+        </div>
       </div>
     </div>
   </div>
@@ -41,9 +50,13 @@
 
 <script>
 import axios from 'axios';
+import Download from '../assets/download.svg';
+import Delete from '../assets/delete.svg';
+import Display from '../assets/tv.svg';
 
 export default {
   name: 'Layout',
+  components: { Download, Delete, Display },
   data() {
     return {
       files: [],
@@ -82,6 +95,18 @@ export default {
         this.message = 'Coś poszło nie tak, spróbuj ponownie!';
       }
     },
+    handelDeleteFIle(name) {
+      try {
+        axios.get(`/api/delete/${name}`).then((res) => {
+          console.log(res.data);
+        });
+        this.message = 'Plik skaowany!';
+        this.handleDisplayFiles();
+      } catch (err) {
+        console.log('Error');
+        this.message = 'Coś poszło nie tak, spróbuj ponownie!';
+      }
+    },
   },
 };
 </script>
@@ -110,5 +135,19 @@ export default {
   background-color: #dbdddf;
   padding: 7px 10px;
   border-radius: 4px;
+}
+.icons {
+  display: flex;
+}
+
+.svg-icon {
+  width: 24px;
+  margin-left: 6px;
+}
+
+.link {
+  color: #0b1223;
+  text-decoration: none;
+  cursor: pointer;
 }
 </style>
